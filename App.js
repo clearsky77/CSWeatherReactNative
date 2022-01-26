@@ -12,8 +12,20 @@ export default function App() {
   const [ok, setOk] = useState(true);
 
   const ask = async () => {
-    const permission = await Location.requestForegroundPermissionsAsync();
-    console.log(permission);
+    // const permission = await Location.requestForegroundPermissionsAsync();
+    // console.log(permission); // 권한 정보가 출력된다.
+    const {granted} = await Location.requestForegroundPermissionsAsync(); // await 비동기 처리 코드 앞에 붙인다.
+    // 중괄호 안에 granted를 적으면 이름이 grandted인 값을 가져올 수 있다.
+
+    if(!granted){
+      setOk(false);
+    }
+    // const location = await Location.getCurrentPositionAsync({accuracy:5});
+    // console.log(location);
+
+    const {coords:{latitude,longitude}} = await Location.getCurrentPositionAsync({accuracy:5});
+    const location = await Location.reverseGeocodeAsync({latitude,longitude},{useGoogleMaps:false})
+    console.log(location);
   };
 
   useEffect(() => {
