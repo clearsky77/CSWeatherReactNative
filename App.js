@@ -3,29 +3,31 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 export default function App() {
-  return <View style={styles.container}>
-    <View style={styles.city}>
-      <Text style={styles.cityName}>Pusan</Text>
+  return (
+    <View style={styles.container}>
+      <View style={styles.city}>
+        <Text style={styles.cityName}>Pusan</Text>
+      </View>
+      <ScrollView horizontal contentContainerStyle={styles.weather}>
+        <View style={styles.day}>
+          <Text style={styles.temp}>13</Text>
+          <Text style={styles.description}>Sunny</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>13</Text>
+          <Text style={styles.description}>Sunny</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>13</Text>
+          <Text style={styles.description}>Sunny</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>13</Text>
+          <Text style={styles.description}>Sunny</Text>
+        </View>
+      </ScrollView>
     </View>
-    <ScrollView horizontal style={styles.weather}>
-      <View style={styles.day}>
-        <Text style={styles.temp}>13</Text>
-        <Text style={styles.description}>Sunny</Text>
-      </View>
-      <View style={styles.day}>
-        <Text style={styles.temp}>13</Text>
-        <Text style={styles.description}>Sunny</Text>
-      </View>
-      <View style={styles.day}>
-        <Text style={styles.temp}>13</Text>
-        <Text style={styles.description}>Sunny</Text>
-      </View>
-      <View style={styles.day}>
-        <Text style={styles.temp}>13</Text>
-        <Text style={styles.description}>Sunny</Text>
-      </View>
-    </ScrollView>
-  </View>;
+  );
 }
 
 const styles = StyleSheet.create({
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
   weather: {
-    flex: 3,
+    // flex: 3, // 스크롤 뷰로 사용시 flex로 제한하면 에러 발생.
     // backgroundColor: "teal", // 위치를 조정할 때는 색을 입혀서 전체 크기를 확인하자
   },
   day: {
