@@ -8,6 +8,10 @@ export default function App() {
       <Text style={styles.cityName}>Pusan</Text>
     </View>
     <View style={styles.weather}>
+      <View style={styles.day}>
+        <Text style={styles.temp}>13</Text>
+        <Text style={styles.description}>Sunny</Text>
+      </View>
     </View>
   </View>;
 }
@@ -17,17 +21,31 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#DEB887",
   },
-  city:{
-    flex:1,
+  city: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  cityName:{
-    fontSize: 35,
+  cityName: {
+    fontSize: 40,
     fontWeight: "400",
   },
-  weather:{
+  weather: {
     flex: 3,
     // backgroundColor: "teal", // 위치를 조정할 때는 색을 입혀서 전체 크기를 확인하자
+  },
+  day: {
+    flex: 1,
+    // justifyContent: "center", // 세로 방향 정렬
+    alignItems: "center", // 가로 방향 정렬
+    backgroundColor: "teal",
+  },
+  temp: {
+    marginTop: 30,
+    fontSize: 120,
+  },
+  description: {
+    marginTop: -30,
+    fontSize: 40,
   }
 });
