@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 export default function App() {
@@ -7,12 +7,24 @@ export default function App() {
     <View style={styles.city}>
       <Text style={styles.cityName}>Pusan</Text>
     </View>
-    <View style={styles.weather}>
+    <ScrollView horizontal style={styles.weather}>
       <View style={styles.day}>
         <Text style={styles.temp}>13</Text>
         <Text style={styles.description}>Sunny</Text>
       </View>
-    </View>
+      <View style={styles.day}>
+        <Text style={styles.temp}>13</Text>
+        <Text style={styles.description}>Sunny</Text>
+      </View>
+      <View style={styles.day}>
+        <Text style={styles.temp}>13</Text>
+        <Text style={styles.description}>Sunny</Text>
+      </View>
+      <View style={styles.day}>
+        <Text style={styles.temp}>13</Text>
+        <Text style={styles.description}>Sunny</Text>
+      </View>
+    </ScrollView>
   </View>;
 }
 
