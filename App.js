@@ -1,6 +1,10 @@
 import React from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, Dimensions, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
+
+const { width:SCREEN_WIDTH } = Dimensions.get("window");
+
+console.log(SCREEN_WIDTH);
 
 export default function App() {
   return (
@@ -49,7 +53,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "teal", // 위치를 조정할 때는 색을 입혀서 전체 크기를 확인하자
   },
   day: {
-    flex: 1,
+    width: SCREEN_WIDTH,
+    // flex: 1,
     // justifyContent: "center", // 세로 방향 정렬
     alignItems: "center", // 가로 방향 정렬
     backgroundColor: "teal",
