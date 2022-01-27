@@ -6,8 +6,11 @@ import * as Location from "expo-location";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 // const SCREEN_WIDTH = Dimensions.get("window").width; // 이렇게도 가능
 
+const API_KEY = "b9738871da6bffe89599626232481eec";
+
 export default function App() {
   const [city, setCity] = useState("Loading...");
+  const [days, setDays] = useState([]);
   const [ok, setOk] = useState(true);
 
   const getWeather = async () => {
@@ -24,7 +27,10 @@ export default function App() {
 
     const {coords:{latitude,longitude}} = await Location.getCurrentPositionAsync({accuracy:5});
     const location = await Location.reverseGeocodeAsync({latitude,longitude},{useGoogleMaps:false});
-    setCity(location[0].region);
+    setCity(location[0].region); // 위치 정보
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=alerts&appid=${API_KEY}`);
+    const json = await response.json();
+    setDays(json.daily); // 여러 날의 날씨
   };
 
   useEffect(() => {
