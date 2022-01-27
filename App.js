@@ -7,7 +7,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 // const SCREEN_WIDTH = Dimensions.get("window").width; // 이렇게도 가능
 
 export default function App() {
-
+  const [city, setCity] = useState("Loading...");
   const [location, setLocation] = useState();
   const [ok, setOk] = useState(true);
 
@@ -24,8 +24,8 @@ export default function App() {
     // console.log(location);
 
     const {coords:{latitude,longitude}} = await Location.getCurrentPositionAsync({accuracy:5});
-    const location = await Location.reverseGeocodeAsync({latitude,longitude},{useGoogleMaps:false})
-    console.log(location);
+    const location = await Location.reverseGeocodeAsync({latitude,longitude},{useGoogleMaps:false});
+    setCity(location[0].region);
   };
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.city}>
-        <Text style={styles.cityName}>Pusan</Text>
+        <Text style={styles.cityName}>{city}</Text>
       </View>
       <ScrollView
         pagingEnabled
