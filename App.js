@@ -8,10 +8,9 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
-  const [location, setLocation] = useState();
   const [ok, setOk] = useState(true);
 
-  const ask = async () => {
+  const getWeather = async () => {
     // const permission = await Location.requestForegroundPermissionsAsync();
     // console.log(permission); // 권한 정보가 출력된다.
     const {granted} = await Location.requestForegroundPermissionsAsync(); // await 비동기 처리 코드 앞에 붙인다.
@@ -29,7 +28,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    ask();
+    getWeather();
   }, []);
 
   return (
