@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Dimensions, StyleSheet } from "react-native";
+import { View, Text, ScrollView, Dimensions, ActivityIndicator, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as Location from "expo-location";
 
@@ -16,19 +16,26 @@ export default function App() {
   const getWeather = async () => {
     // const permission = await Location.requestForegroundPermissionsAsync();
     // console.log(permission); // 권한 정보가 출력된다.
-    const {granted} = await Location.requestForegroundPermissionsAsync(); // await 비동기 처리 코드 앞에 붙인다.
+    const { granted } = await Location.requestForegroundPermissionsAsync(); // await 비동기 처리 코드 앞에 붙인다.
     // 중괄호 안에 granted를 적으면 이름이 grandted인 값을 가져올 수 있다.
 
-    if(!granted){
+    if (!granted) {
       setOk(false);
     }
     // const location = await Location.getCurrentPositionAsync({accuracy:5});
     // console.log(location);
 
-    const {coords:{latitude,longitude}} = await Location.getCurrentPositionAsync({accuracy:5});
-    const location = await Location.reverseGeocodeAsync({latitude,longitude},{useGoogleMaps:false});
+    const {
+      coords: { latitude, longitude },
+    } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+    const location = await Location.reverseGeocodeAsync(
+      { latitude, longitude },
+      { useGoogleMaps: false }
+    );
     setCity(location[0].region); // 위치 정보
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=alerts&appid=${API_KEY}`);
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=alerts&appid=${API_KEY}&units=metric`
+    );
     const json = await response.json();
     setDays(json.daily); // 여러 날의 날씨
   };
@@ -46,23 +53,24 @@ export default function App() {
         pagingEnabled
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.weather}>
-        <View style={styles.day}>
-          <Text style={styles.temp}>13</Text>
-          <Text style={styles.description}>Sunny</Text>
-        </View>
-        <View style={styles.day}>
-          <Text style={styles.temp}>13</Text>
-          <Text style={styles.description}>Sunny</Text>
-        </View>
-        <View style={styles.day}>
-          <Text style={styles.temp}>13</Text>
-          <Text style={styles.description}>Sunny</Text>
-        </View>
-        <View style={styles.day}>
-          <Text style={styles.temp}>13</Text>
-          <Text style={styles.description}>Sunny</Text>
-        </View>
+        contentContainerStyle={styles.weather}
+      >
+        {days.length === 0 ? (
+          <View style={styles.day}>
+            <ActivityIndicator
+            color="white"
+            style={{marginTop: 10}}
+            size="large"/>
+          </View>
+        ) : (
+          days.map((day, index) =>
+          <View key={index} style={styles.day}>
+            <Text style={styles.temp}>{parseFloat(day.temp.day).toFixed(1)}</Text>
+            <Text style={styles.description}>{day.weather[0].main}</Text>
+          </View>
+          )
+          
+        )}
       </ScrollView>
     </View>
   );
@@ -100,5 +108,5 @@ const styles = StyleSheet.create({
   description: {
     marginTop: -30,
     fontSize: 40,
-  }
+  },
 });
