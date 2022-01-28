@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Dimensions, ActivityIndicator, StyleSheet } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import {
+  View,
+  Text,
+  ScrollView,
+  Dimensions,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
 import * as Location from "expo-location";
+import { Fontisto } from "@expo/vector-icons";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 // const SCREEN_WIDTH = Dimensions.get("window").width; // 이렇게도 가능
 
 const API_KEY = "b9738871da6bffe89599626232481eec";
+
+const icons = {
+  Clear: "day-sunny",
+  Clouds: "cloudy",
+  Rain: "rain",
+  Atmosphere: "cloudy-gusts",
+  Snow: "snow",
+  Drizzle: "day-rain",
+  Thunderstorm: "lightning",
+};
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
@@ -55,22 +72,36 @@ export default function App() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.weather}
       >
+        {/* {true? ( */}
         {days.length === 0 ? (
-          <View style={styles.day}>
+          <View style={{ ... styles.day, alignItems:"center"}}>
             <ActivityIndicator
-            color="white"
-            style={{marginTop: 10}}
-            size="large"/>
+              color="black"
+              style={{ marginTop: 10 }}
+              size="large"
+            />
           </View>
         ) : (
-          days.map((day, index) =>
-          <View key={index} style={styles.day}>
-            <Text style={styles.temp}>{parseFloat(day.temp.day).toFixed(1)}</Text>
-            <Text style={styles.description}>{day.weather[0].main}</Text>
-            <Text style={styles.tinyText}>{day.weather[0].description}</Text>
-          </View>
-          )
-          
+          days.map((day, index) => (
+            <View key={index} style={styles.day}>
+              <View style={{
+                flexDirection: "row",
+                alignItems: "center",
+                width: "100%",
+                justifyContent: "space-between", }}>
+                <Text style={styles.temp}>
+                  {parseFloat(day.temp.day).toFixed(1)}
+                </Text>
+                <Fontisto
+                  name={icons[day.weather[0].main]}
+                  size={100}
+                  color="black"
+                />
+              </View>
+              <Text style={styles.description}>{day.weather[0].main}</Text>
+              <Text style={styles.tinyText}>{day.weather[0].description}</Text>
+            </View>
+          ))
         )}
       </ScrollView>
     </View>
@@ -80,7 +111,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#DEB887",
+    backgroundColor: "azure",
   },
   city: {
     flex: 1,
@@ -99,7 +130,9 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     // flex: 1,
     // justifyContent: "center", // 세로 방향 정렬
-    alignItems: "center", // 가로 방향 정렬
+    // alignItems: "center", // 가로 방향 정렬
+    alignItems: "flex-start",
+    paddingHorizontal: 40,
     // backgroundColor: "teal",
   },
   temp: {
@@ -112,5 +145,5 @@ const styles = StyleSheet.create({
   },
   tinyText: {
     fontSize: 20,
-  }
+  },
 });
